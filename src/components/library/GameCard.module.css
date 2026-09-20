@@ -1,0 +1,40 @@
+.card { position: relative; min-width: 0; }
+.link { display: block; height: 100%; border-radius: var(--radius-card); color: inherit; text-decoration: none; }
+.coverWrap { position: relative; aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--radius-card); background: var(--color-recessed); box-shadow: var(--shadow-border); }
+.cover { width: 100%; height: 100%; object-fit: cover; }
+.coverWrap:has(.cover[data-catalog-art='true']) { aspect-ratio: 1 / 1; background: #fff; }
+.cover[data-catalog-art='true'] { object-fit: contain; }
+[data-cover-fallback].cover { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-4); padding: var(--space-6); background: var(--color-text-primary); color: var(--color-surface); text-align: center; }
+[data-cover-fallback].cover::after { position: absolute; right: var(--space-4); bottom: var(--space-4); left: var(--space-4); height: 1px; background: rgb(255 255 255 / 20%); content: ''; }
+[data-cover-fallback].cover em { position: absolute; top: var(--space-4); left: var(--space-4); color: rgb(255 255 255 / 56%); font: 500 9px/12px var(--font-mono); font-style: normal; letter-spacing: .08em; text-transform: uppercase; }
+[data-cover-fallback].cover span { font-size: clamp(32px, 4vw, 52px); font-weight: 600; letter-spacing: -1.28px; }
+[data-cover-fallback].cover small { max-width: 90%; color: rgb(255 255 255 / 64%); font-size: 12px; line-height: 16px; }
+.favorite { position: absolute; top: var(--space-3); right: var(--space-3); display: grid; width: 28px; height: 28px; place-items: center; border-radius: var(--radius-pill); background: var(--color-surface); color: var(--color-text-primary); box-shadow: var(--shadow-small); }
+.playHint { position: absolute; inset: 50% auto auto 50%; display: grid; width: 44px; height: 44px; place-items: center; border-radius: var(--radius-pill); background: color-mix(in srgb, var(--color-surface) 94%, transparent); color: var(--color-text-primary); box-shadow: var(--shadow-small); opacity: 0; translate: -50% -50%; }
+.contextMenu { position: absolute; z-index: 3; top: var(--space-2); right: var(--space-2); opacity: 0; }
+.contextMenu :global(button[aria-haspopup='menu']) { width: 36px; min-height: 36px; justify-content: center; padding: 0; background: color-mix(in srgb, var(--color-surface) 94%, transparent); box-shadow: var(--shadow-small); }
+.contextMenu :global([role='menu']) { right: 0; left: auto; }
+.details { padding: var(--space-3) var(--space-1) var(--space-2); }
+.titleRow { display: flex; min-width: 0; align-items: flex-start; justify-content: space-between; gap: var(--space-2); }
+.titleRow h3 { min-width: 0; overflow: hidden; font-size: 14px; font-weight: 500; line-height: 20px; text-overflow: ellipsis; white-space: nowrap; }
+.metadata { margin-top: var(--space-1); overflow: hidden; color: var(--color-text-muted); font-size: 12px; line-height: 16px; text-overflow: ellipsis; white-space: nowrap; }
+.link:hover .coverWrap { box-shadow: var(--shadow-medium); }
+.card:hover .playHint, .card:focus-within .playHint, .card:hover .contextMenu, .card:focus-within .contextMenu { opacity: 1; }
+.link:focus-visible { box-shadow: var(--focus-ring); }
+.list .link { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: var(--space-4); padding: var(--space-3); background: var(--color-surface); box-shadow: var(--shadow-border); }
+.list .coverWrap { aspect-ratio: 3 / 4; border-radius: var(--radius-default); }
+.list .details { align-self: center; padding: 0; }
+.list .metadata { margin-top: var(--space-2); }
+@media (hover: none) { .contextMenu { opacity: 1; } .playHint { display: none; } }
+@media (max-width: 600px) {
+  .card { overflow: hidden; border-radius: var(--radius-card); background: var(--color-surface); box-shadow: var(--shadow-border); }
+  .link { border-radius: inherit; }
+  .coverWrap, .coverWrap:has(.cover[data-catalog-art='true']) { border-radius: var(--radius-card) var(--radius-card) 0 0; box-shadow: none; }
+  .details { padding: var(--space-3); }
+  .titleRow h3 { font-size: 13px; line-height: 18px; }
+  .metadata { margin-top: 2px; font-size: 11px; line-height: 16px; }
+  .contextMenu { top: var(--space-2); right: var(--space-2); }
+  .contextMenu :global(button[aria-haspopup='menu']) { background: var(--color-surface); }
+  .list { overflow: visible; background: transparent; box-shadow: none; }
+}
+@media (max-width: 430px) { .list .link { grid-template-columns: 84px minmax(0, 1fr); } }

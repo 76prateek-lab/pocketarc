@@ -1,0 +1,52 @@
+.shell { position: fixed; inset: 0; width: 100%; min-height: 100svh; height: 100dvh; overflow: hidden; padding: max(var(--space-2), env(safe-area-inset-top)) max(var(--space-2), env(safe-area-inset-right)) max(var(--space-2), env(safe-area-inset-bottom)) max(var(--space-2), env(safe-area-inset-left)); background: #0a0a0a; }
+.toolbar { position: fixed; z-index: 30; top: max(var(--space-3), env(safe-area-inset-top)); right: max(var(--space-3), env(safe-area-inset-right)); display: flex; align-items: center; gap: 2px; padding: var(--space-1); border-radius: var(--radius-card); background: #171717; box-shadow: 0 0 0 1px rgb(255 255 255 / 12%), 0 8px 24px rgb(0 0 0 / 24%); }
+.compactAction { width: 44px; height: 44px; color: #d4d4d4; }
+.compactAction:hover { background: #262626; color: #fff; }
+.compactAction:focus-visible { box-shadow: 0 0 0 2px #171717, 0 0 0 4px var(--color-accent); }
+.keyboardTrigger { display: inline-flex; width: auto; min-width: max-content; min-height: 40px; flex: none; align-items: center; justify-content: center; gap: var(--space-2); padding-inline: var(--space-3); border: 0; border-radius: var(--radius-default); background: transparent; color: var(--color-text-secondary); font: 500 13px/20px var(--font-sans); white-space: nowrap; }
+.keyboardTrigger:hover { background: var(--color-hover); color: var(--color-text-primary); }
+.keyboardTrigger:focus-visible { outline: 0; box-shadow: var(--focus-ring); }
+.gameArea { position: relative; display: flex; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; background: #0a0a0a; }
+.stage { position: relative; overflow: hidden; width: min(100%, calc(100dvh * 1.5)); max-height: 100%; aspect-ratio: 3 / 2; border-radius: var(--radius-default); background: #0a0a0a; box-shadow: 0 0 0 1px rgb(255 255 255 / 8%); }
+.emulatorRoot, .emulatorRoot :global(.pocketgba-emulator-frame) { width: 100%; height: 100%; }
+.emulatorRoot :global(.pocketgba-emulator-frame) { display: block; border: 0; background: #0a0a0a; }
+.overlay { position: absolute; inset: 0; display: grid; place-content: center; place-items: center; gap: var(--space-3); padding: var(--space-6); background: #0a0a0a; color: #fff; text-align: center; }
+.overlay strong { font-size: 16px; font-weight: 500; }.overlay span { max-width: 420px; color: #a1a1a1; font-size: 12px; line-height: 18px; }
+.spinner { animation: spin 900ms linear infinite; }
+.menuList { display: grid; gap: var(--space-6); padding-bottom: var(--space-4); }
+.menuGroup { display: grid; gap: var(--space-2); }
+.menuGroup h3 { color: var(--color-text-muted); font: 500 11px/16px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+.menuGroupBody { display: grid; gap: var(--space-2); }
+.menuGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+.menuButton, .menuControl, .menuList .keyboardTrigger { display: flex; width: 100%; min-height: 60px; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); border: 0; border-radius: 10px; background: var(--color-surface); box-shadow: var(--shadow-border); color: var(--color-text-primary); font: 500 13px/18px var(--font-sans); text-align: left; }
+.menuButton:hover, .menuList .keyboardTrigger:hover { background: var(--color-hover); }
+.menuButton:focus-visible, .menuControl:focus-within, .menuList .keyboardTrigger:focus-visible { outline: 0; box-shadow: var(--focus-ring); }
+.menuButtonIcon, .menuControlIcon { display: grid; width: 32px; height: 32px; flex: 0 0 auto; place-items: center; border-radius: var(--radius-default); background: var(--color-recessed); color: var(--color-text-secondary); box-shadow: var(--shadow-border); }
+.menuButtonCopy, .menuControlCopy { display: grid; min-width: 0; }
+.menuButtonCopy strong, .menuControlCopy strong { font-size: 13px; font-weight: 500; line-height: 18px; }
+.menuButtonCopy small, .menuControlCopy small { overflow: hidden; color: var(--color-text-muted); font-size: 11px; font-weight: 400; line-height: 16px; text-overflow: ellipsis; white-space: nowrap; }
+.sessionAction { min-height: 72px; background: var(--color-text-primary); box-shadow: var(--shadow-small); color: var(--color-surface); }
+.sessionAction:hover { background: var(--color-text-secondary); }
+.sessionAction .menuButtonIcon { background: rgb(255 255 255 / 12%); box-shadow: none; color: currentColor; }
+.sessionAction .menuButtonCopy small { color: color-mix(in srgb, var(--color-surface) 68%, transparent); }
+.menuList .keyboardTrigger { justify-content: flex-start; }
+.menuList .keyboardTrigger svg { box-sizing: content-box; width: 17px; height: 17px; padding: 7px; border-radius: var(--radius-default); background: var(--color-recessed); box-shadow: var(--shadow-border); color: var(--color-text-secondary); }
+.menuControl select { min-width: 72px; margin-left: auto; padding: var(--space-2); border: 0; border-radius: var(--radius-default); background: var(--color-recessed); box-shadow: var(--shadow-border); color: var(--color-text-primary); font: 500 12px/18px var(--font-sans); }
+.menuControl input { width: 112px; min-width: 72px; margin-left: auto; accent-color: var(--color-text-primary); }
+.exitAction { color: var(--color-danger, #d93036); }
+.exitAction .menuButtonIcon { background: color-mix(in srgb, currentColor 8%, var(--color-surface)); color: currentColor; }
+.legendContent { display: grid; gap: var(--space-6); }
+.legendSection { display: grid; gap: var(--space-3); }
+.legendSection h3 { font-size: 14px; font-weight: 600; line-height: 20px; }
+.legendGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+.legendItem { display: flex; min-height: 40px; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) var(--space-3); border-radius: var(--radius-default); background: var(--color-recessed); }
+.legendItem dt { color: var(--color-text-secondary); font-size: 12px; line-height: 16px; }
+.legendItem dd { margin: 0; }
+.legendItem kbd { display: inline-grid; min-width: 28px; min-height: 24px; place-items: center; padding-inline: 7px; border-radius: 4px; background: var(--color-surface); box-shadow: var(--shadow-small); color: var(--color-text-primary); font: 500 11px/16px var(--font-mono); }
+.legendHint { color: var(--color-text-muted); font-size: 12px; line-height: 18px; }
+.shell:fullscreen { width: 100%; height: 100dvh; }
+.shell:fullscreen .stage { width: min(100%, 150dvh); max-height: 100%; }
+@keyframes spin { to { rotate: 360deg; } }
+@media (max-width: 760px) { .toolbar { top: max(var(--space-2), env(safe-area-inset-top)); right: max(var(--space-2), env(safe-area-inset-right)); } .legendGrid { grid-template-columns: 1fr; } }
+@media (orientation: landscape) and (max-height: 600px) { .shell { padding: 0; } .toolbar { top: max(var(--space-2), env(safe-area-inset-top)); right: max(var(--space-2), env(safe-area-inset-right)); } .gameArea { min-height: 100dvh; } .stage { width: min(100vw, 150dvh); height: 100dvh; max-height: none; margin-inline: auto; border-radius: 0; } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }

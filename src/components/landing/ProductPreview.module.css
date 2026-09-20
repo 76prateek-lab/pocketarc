@@ -1,0 +1,64 @@
+.preview {
+  overflow: hidden;
+  width: 100%;
+  border-radius: 12px;
+  background: #111111;
+  color: #ededed;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 12%), 0 2px 2px rgb(0 0 0 / 32%), 0 20px 48px -20px rgb(0 0 0 / 86%);
+}
+
+.header {
+  display: flex;
+  height: 52px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 10%);
+}
+
+.brand { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+.brandMark { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 6px; background: #ededed; color: #171717; }
+.status { display: inline-flex; align-items: center; gap: 7px; color: #a1a1a1; font-size: 11px; }
+.status > span { width: 7px; height: 7px; border-radius: 50%; background: #45a557; }
+.body { padding: 20px; }
+.sectionHeading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 12px; }
+.sectionHeading > div > span { color: #737373; font-family: var(--font-mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+.sectionHeading h2, .recentHeader h2 { margin-top: 2px; font-size: 16px; font-weight: 600; letter-spacing: -.3px; line-height: 22px; }
+.libraryCount { color: #737373; font-size: 11px; }
+.continueCard { display: grid; grid-template-columns: 148px 1fr; min-height: 190px; overflow: hidden; border-radius: 10px; background: #1a1a1a; box-shadow: 0 0 0 1px rgb(255 255 255 / 10%); }
+.continueCard > img { width: 148px; height: 190px; object-fit: cover; }
+.gameDetails { display: flex; min-width: 0; flex-direction: column; justify-content: space-between; padding: 24px; }
+.platform { color: #737373; font-family: var(--font-mono); font-size: 9px; letter-spacing: .06em; text-transform: uppercase; }
+.gameDetails h3 { margin-top: 8px; font-size: 24px; font-weight: 600; letter-spacing: -.8px; line-height: 28px; }
+.playtime { margin-top: 8px; color: #a1a1a1; font-size: 12px; line-height: 18px; }
+.gameDetails a { display: inline-flex; min-height: 36px; align-items: center; align-self: flex-start; gap: 8px; padding: 0 14px; border-radius: 6px; background: #ededed; color: #171717; font-size: 12px; font-weight: 500; text-decoration: none; }
+.recentHeader { display: flex; align-items: center; justify-content: space-between; margin: 18px 0 10px; }
+.recentHeader h2 { font-size: 13px; line-height: 18px; }
+.recentHeader span { color: #737373; font-size: 10px; }
+.recentGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.recentGrid article { min-width: 0; }
+.recentGrid img { width: 100%; aspect-ratio: 1; border-radius: 6px; object-fit: cover; box-shadow: 0 0 0 1px rgb(255 255 255 / 12%); }
+.recentGrid p { overflow: hidden; margin-top: 7px; font-size: 10px; font-weight: 500; line-height: 14px; text-overflow: ellipsis; white-space: nowrap; }
+
+@media (max-width: 760px) {
+  .header { height: 40px; padding-inline: 12px; }
+  .brand { font-size: 11px; }
+  .brandMark { width: 24px; height: 24px; }
+  .body { padding: 12px; }
+  .sectionHeading { margin-bottom: 8px; }
+  .sectionHeading > div > span, .libraryCount { display: none; }
+  .sectionHeading h2 { margin: 0; font-size: 13px; }
+  .continueCard { grid-template-columns: 88px 1fr; min-height: 112px; }
+  .continueCard > img { width: 88px; height: 112px; }
+  .gameDetails { padding: 12px; }
+  .platform { font-size: 8px; }
+  .gameDetails h3 { margin-top: 4px; font-size: 16px; letter-spacing: -.35px; line-height: 20px; }
+  .playtime { margin-top: 2px; font-size: 10px; line-height: 14px; }
+  .gameDetails a { min-height: 28px; padding: 0 10px; font-size: 10px; }
+  .recentHeader { margin: 10px 0 7px; }
+  .recentGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .recentGrid article:nth-child(n + 3) { display: none; }
+  .recentGrid { max-width: 176px; }
+  .recentGrid img { aspect-ratio: 1.65; }
+  .recentGrid p { display: none; }
+}

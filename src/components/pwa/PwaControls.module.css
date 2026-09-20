@@ -1,0 +1,16 @@
+.installButton { display: inline-flex; min-height: 36px; align-items: center; gap: var(--space-2); padding-inline: var(--space-3); border: 0; border-radius: var(--radius-default); background: var(--color-surface); box-shadow: var(--shadow-border); color: var(--color-text-secondary); font: 500 13px/20px var(--font-sans); }
+.installButton:hover { background: var(--color-hover); color: var(--color-text-primary); }
+.installButton:disabled { cursor: wait; opacity: .55; }
+.notifications { position: fixed; z-index: 90; right: max(var(--space-4), env(safe-area-inset-right)); bottom: max(var(--space-4), env(safe-area-inset-bottom)); display: grid; width: min(420px, calc(100vw - (var(--space-4) * 2))); gap: var(--space-2); }
+.gameplayNotifications { top: calc(64px + max(var(--space-4), env(safe-area-inset-top))); bottom: auto; }
+.notice { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: var(--space-3); padding: var(--space-3); border-radius: var(--radius-card); background: var(--color-surface); box-shadow: var(--shadow-modal); color: var(--color-text-secondary); }
+.notice > svg { color: var(--color-text-primary); }
+.notice div { display: grid; }
+.notice strong { color: var(--color-text-primary); font-size: 14px; font-weight: 600; line-height: 20px; }
+.notice span { font-size: 12px; line-height: 16px; }
+.noticeAction, .close { min-height: 36px; border: 0; border-radius: var(--radius-default); background: transparent; color: var(--color-text-secondary); font: 500 13px/20px var(--font-sans); }
+.noticeAction { padding-inline: var(--space-3); box-shadow: var(--shadow-border); white-space: nowrap; }
+.close { display: grid; width: 36px; place-items: center; padding: 0; }
+.noticeAction:hover, .close:hover { background: var(--color-hover); color: var(--color-text-primary); }
+.noticeAction:disabled { cursor: wait; opacity: .55; }
+@media (max-width: 600px) { .notifications { right: var(--space-2); bottom: calc(88px + env(safe-area-inset-bottom)); width: calc(100vw - var(--space-4)); } .gameplayNotifications { top: calc(64px + max(var(--space-2), env(safe-area-inset-top))); bottom: auto; } .notice { grid-template-columns: auto minmax(0, 1fr) auto; } .noticeAction { grid-column: 2 / -1; width: 100%; min-height: 44px; } .close { min-width: 44px; min-height: 44px; } .installButton span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } .installButton { width: 44px; min-height: 44px; justify-content: center; padding: 0; } }

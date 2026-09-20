@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" role="img" aria-labelledby="title description">
+  <title id="title">PocketArc placeholder cover</title>
+  <desc id="description">A minimal monochrome game cover</desc>
+  <rect width="600" height="800" rx="24" fill="#171717"/>
+  <rect x="72" y="72" width="456" height="528" rx="12" fill="#242424"/>
+  <path d="M150 214h300v244H150z" fill="#fafafa"/>
+  <path d="M198 262h204v148H198z" fill="#171717"/>
+  <circle cx="436" cy="528" r="18" fill="#fafafa"/>
+  <text x="72" y="688" fill="#fafafa" font-family="Arial,sans-serif" font-size="42" font-weight="600">POCKETGBA</text>
+  <text x="74" y="732" fill="#8f8f8f" font-family="monospace" font-size="18" letter-spacing="4">GAME LIBRARY</text>
+</svg>

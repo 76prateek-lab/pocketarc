@@ -1,0 +1,8 @@
+[
+  { "romPath": "/catalog/roms/pokemon-fire-red.gba", "checksum": "729041b940afe031302d630fdbe57c0c145f3f7b6d9b8eca5e98678d0ca4d059" },
+  { "romPath": "/catalog/roms/pokemon-emerald.gba", "checksum": "a9dec84dfe7f62ab2220bafaef7479da0929d066ece16a6885f6226db19085af" },
+  { "romPath": "/catalog/roms/pokemon-leaf-green.gba", "checksum": "2f978f635b9593f6ca26ec42481c53a6b39f6cddd894ad5c062c1419fac58825" },
+  { "romPath": "/catalog/roms/beyblade-v-force-ultimate-blader.gba", "checksum": "a8c64df585e2ed0da969b47af3369227f10ad08987cd91ba54cf7f9186fcb2ce" },
+  { "romPath": "/catalog/roms/dragon-ball-advanced-adventure.gba", "checksum": "89a13559f76cf708d679c2d4f1d90d97333205e27dae72b47a7200715c57702e" },
+  { "romPath": "/catalog/roms/grand-theft-auto-advance.gba", "checksum": "215c574d5afbda0aadbf89dc76b765cfaaeb35953eab63f7687d8bfe8a8e0f4d" }
+]

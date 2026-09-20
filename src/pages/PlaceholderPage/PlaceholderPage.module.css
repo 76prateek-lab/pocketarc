@@ -1,0 +1,4 @@
+.page { width: min(calc(100% - (var(--page-margin) * 2)), var(--page-width)); margin-inline: auto; padding-block: var(--space-16); }
+.page > p:first-child { margin-bottom: var(--space-3); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .08em; }
+.page > p:last-child { margin-top: var(--space-4); color: var(--color-text-secondary); }
+@media (max-width: 760px) { .page { width: calc(100% - (var(--space-4) * 2)); padding-block: var(--space-10); } }

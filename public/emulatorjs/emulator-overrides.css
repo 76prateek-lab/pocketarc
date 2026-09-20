@@ -1,0 +1,10 @@
+:root { color-scheme: dark; }
+html, body, #game { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #0a0a0a; }
+body { font-family: Arial, sans-serif; }
+.ejs_parent { width: 100% !important; height: 100% !important; background: #0a0a0a !important; }
+.ejs_canvas_parent, .ejs_game { width: 100% !important; height: 100% !important; }
+.ejs_canvas { max-width: 100%; max-height: 100%; object-fit: contain; image-rendering: pixelated; }
+.ejs_start_button { position: absolute !important; top: 50% !important; bottom: auto !important; left: 50% !important; min-height: 48px !important; border-radius: 6px !important; background: #171717 !important; box-shadow: 0 0 0 1px rgb(255 255 255 / 18%) !important; font-weight: 600 !important; line-height: 48px !important; transform: translate(-50%, -50%) !important; }
+.ejs_menu_bar { display: none !important; }
+.ejs_virtualGamepad_parent, .ejs_virtualGamepad_open { display: none !important; }
+@media (prefers-reduced-motion: reduce) { .ejs_start_button:hover, .ejs_start_button:active { animation: none !important; } }

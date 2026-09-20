@@ -1,0 +1,17 @@
+export const routes = {
+  landing: '/',
+  home: '/app',
+  library: '/app/library',
+  gamePattern: '/app/game/:gameId',
+  game: (gameId: string) => `/app/game/${gameId}`,
+  playPattern: '/app/play/:gameId',
+  play: (gameId: string) => `/app/play/${gameId}`,
+  saves: '/app/saves',
+  storage: '/app/storage',
+  settings: '/app/settings',
+  about: '/about',
+  copyright: '/copyright',
+  terms: '/terms',
+  privacy: '/privacy',
+  designSystem: '/__design-system',
+} as const

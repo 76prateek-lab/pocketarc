@@ -1,0 +1,27 @@
+node_modules/
+.pnpm-store/
+dist/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+.DS_Store
+.env
+.env.local
+
+# Personal ROM library. Nothing in this directory may be committed.
+private-roms/
+
+# Never commit ROMs, cartridge saves, or emulator states.
+*.gba
+*.gb
+*.gbc
+*.sav
+*.state
+
+# Rights-cleared catalog ROMs are the only exception. Their exact paths and
+# SHA-256 checksums are enforced by scripts/approved-catalog-roms.json.
+!public/catalog/roms/
+!public/catalog/roms/*.gba
+
+.vercel

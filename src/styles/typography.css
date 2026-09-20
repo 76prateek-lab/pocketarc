@@ -1,0 +1,38 @@
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+
+.display-large {
+  font: 600 48px/48px var(--font-sans);
+  letter-spacing: -2.28px;
+}
+
+.display-medium {
+  font: 600 32px/40px var(--font-sans);
+  letter-spacing: -1.28px;
+}
+
+.label {
+  font: 500 14px/20px var(--font-sans);
+  letter-spacing: -0.28px;
+}
+
+.body {
+  font: 400 16px/24px var(--font-sans);
+}
+
+.caption {
+  font: 400 12px/16px var(--font-sans);
+}
+
+.code {
+  font: 500 13px/20px var(--font-mono);
+  font-feature-settings: 'liga';
+}
+
+@media (max-width: 600px) {
+  .display-large {
+    font-size: 40px;
+    line-height: 40px;
+    letter-spacing: -1.8px;
+  }
+}

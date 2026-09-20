@@ -1,0 +1,12 @@
+.content { display: grid; gap: var(--space-6); }
+.form { display: grid; gap: var(--space-3); }
+.form > button { justify-self: start; }
+.form p, .list > p { color: var(--color-text-secondary); font-size: 12px; line-height: 18px; }
+.list { display: grid; gap: var(--space-2); }
+.list article { display: grid; grid-template-columns: minmax(0, 1fr) auto 44px; align-items: center; gap: var(--space-3); padding: var(--space-3); border-radius: var(--radius-default); background: var(--color-surface); box-shadow: var(--shadow-border); }
+.list article > div { display: grid; min-width: 0; gap: var(--space-1); }
+.list strong { font-size: 14px; font-weight: 500; }
+.list code { overflow: hidden; color: var(--color-text-muted); font: 500 12px/16px var(--font-mono); text-overflow: ellipsis; white-space: nowrap; }
+.list article > button { display: grid; width: 44px; height: 44px; place-items: center; border: 0; border-radius: var(--radius-default); background: transparent; color: var(--color-text-secondary); }
+.list article > button:hover { background: var(--color-hover); color: var(--color-text-primary); }
+.list article > button:focus-visible { outline: 0; box-shadow: var(--focus-ring); }

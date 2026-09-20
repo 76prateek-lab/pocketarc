@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PocketArc Emulator</title>
+    <link rel="stylesheet" href="/emulatorjs/emulator-overrides.css" />
+  </head>
+  <body>
+    <div id="game" aria-label="Game Boy Advance emulator"></div>
+    <script>
+      (() => {
+        const CHANNEL = 'pocketgba-emulator';
+        const notify = (type, detail) => parent.postMessage({ channel: CHANNEL, type, detail }, location.origin);
+        let initialized = false;
+        let initialSave;
+
+        const reportRuntimeError = (message) => {
+          const text = message || 'The emulator failed to load.';
+          if (/wake lock.*(denied|not allowed)/i.test(text)) return;
+          notify('error', text);
+        };
+        window.addEventListener('error', (event) => reportRuntimeError(event.message));
+        window.addEventListener('unhandledrejection', (event) => reportRuntimeError(event.reason?.message));
+        window.addEventListener('message', (event) => {
+          if (event.origin !== location.origin || event.source !== parent || event.data?.channel !== CHANNEL) return;
+          if (event.data.type === 'initialize' && !initialized) initialize(event.data.config);
+          if (event.data.type === 'command') runCommand(event.data.command);
+        });
+
+        function initialize(config) {
+          initialized = true;
+          window.EJS_player = '#game';
+          window.EJS_core = 'gba';
+          window.EJS_gameUrl = config.gameUrl;
+          window.EJS_gameName = config.gameName;
+          window.EJS_gameID = config.gameId;
+          window.EJS_pathtodata = '/emulatorjs/data/';
+          window.EJS_biosUrl = '';
+          window.EJS_startOnLoaded = false;
+          window.EJS_askBeforeExit = false;
+          window.EJS_language = 'en-US';
+          window.EJS_disableAutoLang = true;
+          window.EJS_threads = false;
+          window.EJS_DEBUG_XX = true;
+          window.EJS_fixedSaveInterval = 5000;
+          window.EJS_defaultOptions = {
+            keyboardInput: 'disabled',
+            'virtual-gamepad': 'disabled',
+            'menu-bar-button': 'hidden'
+          };
+          window.EJS_defaultControls = { 0: {}, 1: {}, 2: {}, 3: {} };
+          initialSave = config.normalSave;
+          window.EJS_Buttons = {
+            restart: false,
+            mute: false,
+            settings: false,
+            fullscreen: false,
+            gamepad: false,
+            volume: false,
+            saveState: false,
+            loadState: false,
+            quickSave: false,
+            quickLoad: false,
+            screenshot: false,
+            screenRecord: false,
+            saveSavFiles: false,
+            loadSavFiles: false,
+            cacheManager: false,
+            cheat: false,
+            netplay: false,
+            exitEmulation: false
+          };
+          window.EJS_ready = () => notify('ready');
+          window.EJS_onGameStart = () => {
+            if (initialSave) {
+              try { installNormalSave(new Uint8Array(initialSave)); initialSave = undefined; } catch (error) { reportRuntimeError(error.message); }
+            }
+            notify('running');
+          };
+          window.EJS_onSaveUpdate = (event) => {
+            const save = event?.save || event;
+            if (!save || save.byteLength === 0) return;
+            const data = copyBuffer(save);
+            parent.postMessage({ channel: CHANNEL, type: 'normal-save', data, hash: event?.hash }, location.origin, [data]);
+          };
+          window.EJS_onExit = () => notify('exit');
+          const loader = document.createElement('script');
+          loader.src = '/emulatorjs/data/loader.js';
+          loader.onerror = () => notify('error', 'The self-hosted EmulatorJS loader is unavailable.');
+          document.body.appendChild(loader);
+        }
+
+        function copyBuffer(value) {
+          const view = value instanceof Uint8Array ? value : new Uint8Array(value);
+          return view.buffer.slice(view.byteOffset, view.byteOffset + view.byteLength);
+        }
+
+        function installNormalSave(save) {
+          const manager = window.EJS_emulator?.gameManager;
+          if (!manager || save.byteLength === 0) return;
+          const path = manager.getSaveFilePath();
+          const parts = path.split('/');
+          let parentPath = '';
+          for (let index = 0; index < parts.length - 1; index += 1) {
+            if (!parts[index]) continue;
+            parentPath += '/' + parts[index];
+            if (!manager.FS.analyzePath(parentPath).exists) manager.FS.mkdir(parentPath);
+          }
+          if (manager.FS.analyzePath(path).exists) manager.FS.unlink(path);
+          manager.FS.writeFile(path, save);
+          manager.loadSaveFiles();
+        }
+
+        async function takeScreenshotSafely(timeout = 1500) {
+          const emulator = window.EJS_emulator;
+          let capture;
+          try {
+            capture = await Promise.race([
+              emulator.takeScreenshot('canvas', 'png', 1),
+              new Promise((resolve) => setTimeout(() => resolve(undefined), timeout)),
+            ]);
+          } catch {}
+          if (capture?.blob || capture?.screenshot) return capture;
+          const canvas = document.querySelector('canvas');
+          if (!canvas?.toDataURL) return undefined;
+          try {
+            const dataUrl = canvas.toDataURL('image/png');
+            const encoded = dataUrl.split(',')[1];
+            if (!encoded) return undefined;
+            const binary = atob(encoded); const bytes = new Uint8Array(binary.length);
+            for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+            return { screenshot: bytes.buffer, format: 'png' };
+          } catch { return undefined; }
+        }
+
+        async function captureState(requestId) {
+          try {
+            const emulator = window.EJS_emulator;
+            const state = copyBuffer(emulator.gameManager.getState());
+            const capture = await takeScreenshotSafely();
+            const image = capture?.blob || capture?.screenshot;
+            const screenshot = image instanceof Blob ? await image.arrayBuffer() : image ? copyBuffer(image) : undefined;
+            const payload = { channel: CHANNEL, type: 'state-captured', requestId, data: state, screenshot, screenshotType: image?.type || `image/${capture?.format || 'png'}` };
+            parent.postMessage(payload, location.origin, screenshot ? [state, screenshot] : [state]);
+          } catch (error) {
+            parent.postMessage({ channel: CHANNEL, type: 'state-error', requestId, detail: error?.message || 'Save state failed.' }, location.origin);
+          }
+        }
+
+        async function captureScreenshot(requestId) {
+          try {
+            const capture = await takeScreenshotSafely();
+            const image = capture?.blob || capture?.screenshot;
+            if (!image) throw new Error('Screenshot data was unavailable.');
+            const data = image instanceof Blob ? await image.arrayBuffer() : copyBuffer(image);
+            parent.postMessage({ channel: CHANNEL, type: 'screenshot-captured', requestId, data, screenshotType: image?.type || `image/${capture?.format || 'png'}` }, location.origin, [data]);
+          } catch (error) {
+            parent.postMessage({ channel: CHANNEL, type: 'screenshot-error', requestId, detail: error?.message || 'Screenshot failed.' }, location.origin);
+          }
+        }
+
+        function runCommand(command) {
+          if (!command || typeof command.type !== 'string') return;
+          const emulator = window.EJS_emulator;
+          if (!emulator) return;
+          if (command.type === 'pause') { emulator.pause(); notify('paused'); }
+          if (command.type === 'resume') { emulator.play(); notify('running'); }
+          if (command.type === 'restart') { emulator.gameManager?.restart(); emulator.play(); notify('running'); }
+          if (command.type === 'flush-save') { emulator.gameManager?.saveSaveFiles?.(); parent.postMessage({ channel: CHANNEL, type: 'flush-complete', requestId: command.requestId }, location.origin); }
+          if (command.type === 'capture-state') { void captureState(command.requestId); }
+          if (command.type === 'capture-screenshot') { void captureScreenshot(command.requestId); }
+          if (command.type === 'load-state' && command.state) { emulator.gameManager?.loadState?.(new Uint8Array(command.state)); }
+          if (command.type === 'input') {
+            const indexes = { A: 8, B: 0, L: 10, R: 11, SELECT: 2, START: 3, UP: 4, DOWN: 5, LEFT: 6, RIGHT: 7 };
+            const index = indexes[command.action];
+            if (index !== undefined) emulator.gameManager?.simulateInput?.(0, index, command.pressed ? 1 : 0);
+          }
+          if (command.type === 'fast-forward') {
+            const ratio = [1, 2, 4].includes(command.ratio) ? command.ratio : 1;
+            emulator.gameManager?.toggleFastForward?.(0);
+            emulator.gameManager?.setFastForwardRatio?.(ratio);
+            if (ratio > 1) emulator.gameManager?.toggleFastForward?.(1);
+          }
+          if (command.type === 'cheats' && Array.isArray(command.cheats)) {
+            emulator.gameManager?.resetCheat?.();
+            command.cheats.forEach((cheat, index) => emulator.gameManager?.setCheat?.(index, Boolean(cheat.enabled), String(cheat.code || '')));
+          }
+          if (command.type === 'volume') {
+            emulator.volume = command.value;
+            try { emulator.setVolume?.(command.value); } catch {}
+          }
+          if (command.type === 'display' && command.settings) {
+            const shader = { original: 'disabled', sharp: '2xScaleHQ.glslp', smooth: 'bicubic' }[command.settings.filter] || 'disabled';
+            try { emulator.enableShader?.(shader); } catch {}
+            const canvas = document.querySelector('canvas');
+            if (canvas) {
+              canvas.style.imageRendering = command.settings.smoothFiltering ? 'auto' : 'pixelated';
+              canvas.style.objectFit = command.settings.screenFit === 'fill' ? 'fill' : 'contain';
+              canvas.style.maxWidth = command.settings.screenFit === 'pixel-perfect' || command.settings.integerScaling ? '960px' : '100%';
+              canvas.style.maxHeight = command.settings.screenFit === 'pixel-perfect' || command.settings.integerScaling ? '640px' : '100%';
+            }
+          }
+          if (command.type === 'destroy') {
+            try { emulator.pause(true); emulator.gameManager?.saveSaveFiles?.(); } catch {}
+          }
+        }
+
+        notify('frame-ready');
+      })();
+    </script>
+  </body>
+</html>
