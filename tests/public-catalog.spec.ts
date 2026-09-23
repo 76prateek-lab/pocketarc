@@ -4,6 +4,7 @@ test('publishes only the rights-approved catalog set', async ({ request }) => {
   const response = await request.get('/catalog/games.json')
   expect(response.ok()).toBe(true)
   const catalog = await response.json()
-  expect(catalog).toHaveLength(6)
+  expect(catalog).toHaveLength(7)
   expect(catalog.map((entry: { id: string }) => entry.id)).toContain('pokemon-fire-red')
+  expect(catalog.map((entry: { id: string }) => entry.id)).toContain('jsmolka-hello')
 })

@@ -16,7 +16,7 @@ catalog. Adding one requires all of the following:
    `scripts/approved-catalog-roms.json`.
 4. `npm run verify:roms` confirms the public file matches both manifests.
 
-The current eight catalog binaries were added after the project owner confirmed
+The current seven catalog binaries were added after the project owner confirmed
 permission to redistribute those exact files. Their path, byte size, and SHA-256
 are locked by both manifests and verified on every production build. Files are
 never copied from `private-roms/` automatically.

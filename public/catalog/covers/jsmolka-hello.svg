@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" role="img" aria-labelledby="title description">
+  <title id="title">GBA Tests trial cover</title>
+  <desc id="description">A minimal monochrome cover for the PocketArc homebrew trial</desc>
+  <rect width="600" height="800" rx="24" fill="#171717"/>
+  <rect x="56" y="56" width="488" height="688" rx="12" fill="#242424"/>
+  <path d="M156 190h288v224H156z" fill="#fafafa"/>
+  <path d="M204 238h192v128H204z" fill="#171717"/>
+  <circle cx="420" cy="478" r="22" fill="#fafafa"/>
+  <circle cx="366" cy="516" r="22" fill="#8f8f8f"/>
+  <text x="88" y="614" fill="#fafafa" font-family="Arial,sans-serif" font-size="54" font-weight="600">GBA TESTS</text>
+  <text x="92" y="662" fill="#8f8f8f" font-family="monospace" font-size="20" letter-spacing="4">POCKETARC TRIAL</text>
+</svg>

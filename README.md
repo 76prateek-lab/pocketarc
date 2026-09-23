@@ -23,45 +23,16 @@ Repository ignore rules prevent private ROMs, cartridge saves, and emulator
 states from being committed. The only `.gba` exception is the checksum-locked
 set under `public/catalog/roms/`.
 
-## Deploy to Vercel
+## Deploy to Cloudflare Pages
 
-PocketArc is a static Vite SPA. `vercel.json` configures the Vite build, keeps
-real files such as the self-hosted EmulatorJS runtime ahead of the SPA fallback,
-and rewrites application routes to `index.html`. Hashed Vite assets are cached
-immutably; the application shell, service worker, manifest, and unversioned
-EmulatorJS files are revalidated so updates are not pinned indefinitely.
+PocketArc is ready for a static GitHub-to-Cloudflare Pages deployment. Use
+production branch `main`, build command `npm run build`, and output directory
+`dist`. No environment variables, redirects, Workers, or Pages Functions are
+required.
 
-### Dashboard deployment
-
-1. Push this directory to a Git provider supported by Vercel. Do not add files
-   from `private-roms/`.
-2. In Vercel, choose **Add New → Project** and import the repository.
-3. Keep the detected framework as **Vite**. The committed configuration uses
-   `npm run build` and publishes `dist`.
-4. Deploy the project. No environment variables or backend services are needed.
-5. On the preview URL, run the deployment checks below. Promote that deployment
-   to production only after they pass.
-
-### CLI deployment
-
-Install and authenticate the Vercel CLI, then run these commands from the
-project root:
-
-```bash
-npm install
-npm run typecheck
-npm run lint
-npm run test
-npm run build
-npx vercel
-```
-
-The last command creates a preview deployment. After verifying it, deploy the
-same project to production:
-
-```bash
-npx vercel --prod
-```
+See the beginner-friendly [Cloudflare Pages deployment guide](docs/CLOUDFLARE_PAGES.md)
+for the complete dashboard walkthrough, custom-domain setup, verification
+steps, and troubleshooting.
 
 ### Deployment checks
 
@@ -79,7 +50,7 @@ npx vercel --prod
   console errors.
 
 ROMs imported by users are written only to browser IndexedDB. They are never
-part of the Vercel build, Workbox cache, or an upload request. Catalog ROMs are
+part of the Cloudflare build, Workbox cache, or an upload request. Catalog ROMs are
 deployment assets but are excluded from Workbox precaching; they are fetched
 only after a visitor chooses **Install for Offline**, verified, and then stored
 in IndexedDB.

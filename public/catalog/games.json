@@ -82,5 +82,19 @@
     "fileSize": 16777216,
     "checksum": "215c574d5afbda0aadbf89dc76b765cfaaeb35953eab63f7687d8bfe8a8e0f4d",
     "featured": false
+  },
+  {
+    "id": "jsmolka-hello",
+    "title": "GBA Tests",
+    "description": "A lightweight homebrew trial for checking PocketArc gameplay, display, and controls.",
+    "developer": "Jsmolka",
+    "publisher": "PocketArc Trials",
+    "year": 2026,
+    "genre": ["Homebrew", "Demo"],
+    "cover": "/catalog/covers/jsmolka-hello.svg",
+    "romPath": "/catalog/roms/jsmolka-hello.gba",
+    "fileSize": 1300,
+    "checksum": "38aed48b67bc0f701e8aa222b0c3334bd306bd29888707bb7224d81f5576c264",
+    "featured": true
   }
 ]

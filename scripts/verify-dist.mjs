@@ -6,6 +6,8 @@ import process from 'node:process'
 const root = process.cwd()
 const dist = join(root, 'dist')
 const forbiddenExtensions = new Set(['.gba', '.gb', '.gbc', '.sav', '.state'])
+const cloudflareMaxFiles = 20_000
+const cloudflareMaxAssetSize = 25 * 1024 * 1024
 const requiredAssets = [
   'index.html',
   'manifest.webmanifest',
@@ -43,6 +45,23 @@ for (const asset of requiredAssets) {
 if (missing.length > 0) throw new Error(`Production output is missing required assets:\n${missing.map((asset) => `- ${asset}`).join('\n')}`)
 
 const files = await walk(dist)
+if (files.length > cloudflareMaxFiles) {
+  throw new Error(`Production output contains ${files.length} files, exceeding the Cloudflare Pages free-plan limit of ${cloudflareMaxFiles}.`)
+}
+
+const oversizedAssets = []
+for (const file of files) {
+  const size = (await stat(file)).size
+  if (size > cloudflareMaxAssetSize) oversizedAssets.push(`${relative(dist, file)} (${size} bytes)`)
+}
+if (oversizedAssets.length > 0) {
+  throw new Error(`Production output contains assets larger than Cloudflare Pages' 25 MiB limit:\n${oversizedAssets.map((asset) => `- ${asset}`).join('\n')}`)
+}
+
+if (files.some((file) => relative(dist, file) === '404.html')) {
+  throw new Error('A top-level 404.html disables Cloudflare Pages\' automatic SPA fallback and must not be included.')
+}
+
 const binaryFiles = files
   .filter((file) => forbiddenExtensions.has(extname(file).toLowerCase()))
   .map((file) => relative(dist, file))
