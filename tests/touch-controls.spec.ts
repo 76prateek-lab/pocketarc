@@ -21,6 +21,18 @@ test('composes portrait gameplay controls as one compact deck', async ({ page },
 
   for (const [width, height] of PORTRAIT_GAMEPLAY_VIEWPORTS) {
     await page.setViewportSize({ width, height })
+    const toolbar = await page.getByRole('navigation', { name: 'Gameplay controls' }).boundingBox()
+    const stage = await page.getByLabel('Control Layout Demo play area').boundingBox()
+    const deck = await page.getByLabel('Touch game controls').boundingBox()
+    expect(toolbar).not.toBeNull(); expect(stage).not.toBeNull(); expect(deck).not.toBeNull()
+    if (toolbar && stage && deck) {
+      expect(stage.y - (toolbar.y + toolbar.height)).toBeGreaterThanOrEqual(16)
+      expect(stage.y - (toolbar.y + toolbar.height)).toBeLessThanOrEqual(20)
+      expect(stage.width).toBeCloseTo(width - 32, 0)
+      expect(Math.abs(stage.x - ((width - stage.width) / 2))).toBeLessThan(1)
+      expect(deck.y - (stage.y + stage.height)).toBeGreaterThanOrEqual(20)
+      expect(deck.y - (stage.y + stage.height)).toBeLessThanOrEqual(24)
+    }
     const controls = Object.fromEntries(await Promise.all(['dpad', 'a', 'b', 'l', 'r', 'select', 'start'].map(async (id) => [id, await page.locator(`[data-control="${id}"]`).boundingBox()])))
     for (const [id, box] of Object.entries(controls)) expect(box, `${id} should render at ${width}x${height}`).not.toBeNull()
     const { dpad, a, b, l, r, select, start } = controls
