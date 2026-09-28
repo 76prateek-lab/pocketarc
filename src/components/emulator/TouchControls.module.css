@@ -1,4 +1,4 @@
-.controls { --safe-top: max(12px, env(safe-area-inset-top)); --safe-right: max(12px, env(safe-area-inset-right)); --safe-bottom: max(12px, env(safe-area-inset-bottom)); --safe-left: max(12px, env(safe-area-inset-left)); position: relative; display: none; overflow: hidden; width: 100%; height: clamp(280px, 48dvh, 420px); opacity: var(--touch-opacity); touch-action: none; user-select: none; -webkit-touch-callout: none; -webkit-user-select: none; }
+.controls { --safe-top: max(12px, env(safe-area-inset-top)); --safe-right: max(12px, env(safe-area-inset-right)); --safe-bottom: max(12px, env(safe-area-inset-bottom)); --safe-left: max(12px, env(safe-area-inset-left)); position: relative; display: none; overflow: hidden; width: 100%; height: clamp(300px, 37dvh, 320px); flex: 0 0 auto; margin-top: clamp(20px, 2.8dvh, 24px); opacity: var(--touch-opacity); touch-action: none; user-select: none; -webkit-touch-callout: none; -webkit-user-select: none; }
 .controls *, .controls *::before, .controls *::after { user-select: none; -webkit-touch-callout: none; -webkit-user-drag: none; -webkit-user-select: none; }
 .positioned { --half-width: 34px; --half-height: 24px; position: absolute; z-index: 2; top: clamp(calc(var(--safe-top) + var(--half-height)), var(--control-y), calc(100% - var(--safe-bottom) - var(--half-height))); left: clamp(calc(var(--safe-left) + var(--half-width)), var(--control-x), calc(100% - var(--safe-right) - var(--half-width))); transform: translate(-50%, -50%) scale(var(--control-scale)); transform-origin: center; }
 .dpadPosition { --half-width: 66px; --half-height: 66px; }
@@ -6,11 +6,11 @@
 .touchButton svg { width: 20px; height: 20px; margin: auto; pointer-events: none; }
 .touchButton:focus-visible, .systemButton:focus-visible, .shoulder:focus-visible { outline: 0; box-shadow: var(--focus-ring); }
 .touchButton:active, .systemButton:active, .shoulder:active { background: #343434; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 16%), 0 1px 0 #0d0d0d, 0 3px 8px rgb(0 0 0 / 24%); color: #fff; transform: translateY(2px); }
-.a, .b { width: 68px; height: 68px; border-radius: 50%; font-size: 18px; letter-spacing: -.3px; }
+.a, .b { width: 74px; height: 74px; border-radius: 50%; font-size: 18px; letter-spacing: -.3px; }
 .a { background: #ededed; color: #171717; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 72%), 0 3px 0 #8f8f8f, 0 8px 16px rgb(0 0 0 / 36%); }
 .a:active { background: #d4d4d4; color: #000; }
-.l, .r { width: 80px; height: 44px; min-width: 80px; min-height: 44px; border-radius: var(--radius-card); color: #d4d4d4; font-size: 13px; letter-spacing: .08em; }
-.start, .select { width: 72px; height: 40px; min-width: 72px; min-height: 40px; border-radius: var(--radius-pill); background: #1a1a1a; color: #d4d4d4; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.l, .r { width: 92px; height: 48px; min-width: 92px; min-height: 48px; border-radius: var(--radius-card); color: #d4d4d4; font-size: 13px; letter-spacing: .08em; }
+.start, .select { width: 84px; height: 46px; min-width: 84px; min-height: 46px; border-radius: var(--radius-pill); background: #1a1a1a; color: #d4d4d4; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
 .dpad { display: grid; width: 132px; height: 132px; grid-template: repeat(3, 44px) / repeat(3, 44px); }
 .dpad .touchButton { width: 44px; height: 44px; min-width: 44px; min-height: 44px; background: #242424; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 10%), 0 3px 0 #0d0d0d; color: #d4d4d4; }
 .up { grid-area: 1 / 2; border-radius: var(--radius-default) var(--radius-default) 0 0; }
@@ -20,5 +20,5 @@
 .dpadCenter { position: relative; grid-area: 2 / 2; background: #242424; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 10%); }
 .dpadCenter::after { position: absolute; inset: 13px; border-radius: 50%; background: #1a1a1a; box-shadow: inset 0 1px 2px rgb(0 0 0 / 60%), 0 1px 0 rgb(255 255 255 / 8%); content: ''; }
 @media (hover: none), (pointer: coarse) { .controls { display: block; } }
+@media (orientation: portrait) and (hover: none), (orientation: portrait) and (pointer: coarse) { .controls { --safe-top: 0px; --safe-right: max(clamp(20px, 5vw, 24px), env(safe-area-inset-right)); --safe-bottom: max(28px, calc(env(safe-area-inset-bottom) + 24px)); --safe-left: max(clamp(20px, 5vw, 24px), env(safe-area-inset-left)); } }
 @media (orientation: landscape) and (max-height: 600px) { .controls { position: absolute; z-index: 3; inset: 0; display: block; width: 100%; height: 100%; pointer-events: none; } .controls button { pointer-events: auto; } }
-@media (max-width: 360px) { .dpadPosition { --half-width: 60px; --half-height: 60px; } .dpad { width: 120px; height: 120px; grid-template: repeat(3, 40px) / repeat(3, 40px); } .dpad .touchButton { width: 40px; height: 40px; min-width: 40px; min-height: 40px; } }

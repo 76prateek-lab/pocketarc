@@ -8,6 +8,7 @@
 .keyboardTrigger:focus-visible { outline: 0; box-shadow: var(--focus-ring); }
 .gameArea { position: relative; display: flex; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; background: #0a0a0a; }
 .stage { position: relative; overflow: hidden; width: min(100%, calc(100dvh * 1.5)); max-height: 100%; aspect-ratio: 3 / 2; border-radius: var(--radius-default); background: #0a0a0a; box-shadow: 0 0 0 1px rgb(255 255 255 / 8%); }
+@media (orientation: portrait) and (hover: none), (orientation: portrait) and (pointer: coarse) { .gameArea { justify-content: flex-end; } .stage { flex: 0 0 auto; } }
 .emulatorRoot, .emulatorRoot :global(.pocketgba-emulator-frame) { width: 100%; height: 100%; }
 .emulatorRoot :global(.pocketgba-emulator-frame) { display: block; border: 0; background: #0a0a0a; }
 .overlay { position: absolute; inset: 0; display: grid; place-content: center; place-items: center; gap: var(--space-3); padding: var(--space-6); background: #0a0a0a; color: #fff; text-align: center; }

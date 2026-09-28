@@ -19,7 +19,7 @@ export function TouchControls({ manager }: { manager: InputManager }) {
   </section>
 }
 
-const SIZES: Record<TouchControlId, [number, number]> = { dpad: [132, 132], a: [68, 68], b: [68, 68], l: [80, 44], r: [80, 44], start: [72, 40], select: [72, 40] }
+const SIZES: Record<TouchControlId, [number, number]> = { dpad: [132, 132], a: [74, 74], b: [74, 74], l: [92, 48], r: [92, 48], start: [84, 46], select: [84, 46] }
 function positionStyle(id: TouchControlId, position: NormalizedControlPosition, globalScale: number): CSSProperties { const scale = position.scale * globalScale; return { '--control-x': `${position.x * 100}%`, '--control-y': `${position.y * 100}%`, '--control-scale': scale, '--half-width': `${SIZES[id][0] * scale / 2}px`, '--half-height': `${SIZES[id][1] * scale / 2}px` } as CSSProperties }
 function useOrientation(): TouchOrientation {
   const read = (): TouchOrientation => window.matchMedia('(orientation: landscape)').matches ? 'landscape' : 'portrait'

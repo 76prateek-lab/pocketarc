@@ -7,6 +7,10 @@ export type TouchControlLayout = Record<TouchControlId, NormalizedControlPositio
 export interface TouchLayouts { portrait: TouchControlLayout; landscape: TouchControlLayout }
 
 const portrait: TouchControlLayout = {
+  dpad: { x: .22, y: .47, scale: 1 }, a: { x: .82, y: .39, scale: 1 }, b: { x: .65, y: .55, scale: 1 },
+  l: { x: .17, y: .08, scale: 1 }, r: { x: .83, y: .08, scale: 1 }, start: { x: .63, y: .82, scale: 1 }, select: { x: .37, y: .82, scale: 1 },
+}
+const legacyPortrait: TouchControlLayout = {
   dpad: { x: .22, y: .68, scale: 1 }, a: { x: .82, y: .58, scale: 1 }, b: { x: .66, y: .73, scale: 1 },
   l: { x: .18, y: .17, scale: 1 }, r: { x: .82, y: .17, scale: 1 }, start: { x: .57, y: .89, scale: 1 }, select: { x: .37, y: .89, scale: 1 },
 }
@@ -25,9 +29,19 @@ export function presetTouchLayouts(preset: TouchPreset): TouchLayouts {
 export function validateTouchLayouts(value: unknown): TouchLayouts {
   const root = record(value)
   return {
-    portrait: validateLayout(root.portrait, DEFAULT_TOUCH_LAYOUTS.portrait),
+    portrait: migrateLegacyPortrait(validateLayout(root.portrait, DEFAULT_TOUCH_LAYOUTS.portrait)),
     landscape: validateLayout(root.landscape, DEFAULT_TOUCH_LAYOUTS.landscape),
   }
+}
+
+function migrateLegacyPortrait(layout: TouchControlLayout): TouchControlLayout {
+  return Object.fromEntries(TOUCH_CONTROL_IDS.map((id) => {
+    const current = layout[id]
+    const legacy = legacyPortrait[id]
+    return [id, current.x === legacy.x && current.y === legacy.y
+      ? { ...DEFAULT_TOUCH_LAYOUTS.portrait[id], scale: current.scale }
+      : current]
+  })) as unknown as TouchControlLayout
 }
 
 export function clampControlPosition(position: NormalizedControlPosition): NormalizedControlPosition {

@@ -14,4 +14,14 @@ describe('normalized touch layouts', () => {
     expect(presetTouchLayouts('large').landscape.a.scale).toBeGreaterThan(1)
     expect(presetTouchLayouts('default')).toEqual(DEFAULT_TOUCH_LAYOUTS)
   })
+
+  it('migrates legacy portrait defaults without replacing custom positions', () => {
+    const repaired = validateTouchLayouts({ portrait: {
+      dpad: { x: .22, y: .68, scale: 1.18 },
+      b: { x: .7, y: .7, scale: .9 },
+    } })
+
+    expect(repaired.portrait.dpad).toEqual({ ...DEFAULT_TOUCH_LAYOUTS.portrait.dpad, scale: 1.18 })
+    expect(repaired.portrait.b).toEqual({ x: .7, y: .7, scale: .9 })
+  })
 })

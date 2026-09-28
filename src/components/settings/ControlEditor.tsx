@@ -6,7 +6,7 @@ import type { TouchSettings } from '@/types/settings'
 import styles from './ControlEditor.module.css'
 
 const LABELS: Record<TouchControlId, string> = { dpad: 'D-pad', a: 'A', b: 'B', l: 'L', r: 'R', start: 'Start', select: 'Select' }
-const BASE_SIZE: Record<TouchControlId, [number, number]> = { dpad: [132, 132], a: [68, 68], b: [68, 68], l: [80, 44], r: [80, 44], start: [72, 40], select: [72, 40] }
+const BASE_SIZE: Record<TouchControlId, [number, number]> = { dpad: [132, 132], a: [74, 74], b: [74, 74], l: [92, 48], r: [92, 48], start: [84, 46], select: [84, 46] }
 
 export function ControlEditor({ value, onSave, onCancel }: { value: TouchSettings; onSave: (value: TouchSettings) => void | Promise<void>; onCancel: () => void }) {
   const [draft, setDraft] = useState(value); const [orientation, setOrientation] = useState<TouchOrientation>('portrait'); const [selected, setSelected] = useState<TouchControlId>('dpad'); const viewport = useRef<HTMLDivElement>(null)

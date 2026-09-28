@@ -1,6 +1,42 @@
 import { expect, test, type Page } from '@playwright/test'
 
 const VIEWPORTS = [[320, 568], [360, 800], [375, 812], [390, 844], [430, 932], [768, 1024], [1024, 768]] as const
+const PORTRAIT_GAMEPLAY_VIEWPORTS = [[360, 800], [375, 812], [390, 844], [430, 932]] as const
+
+test('composes portrait gameplay controls as one compact deck', async ({ page }, testInfo) => {
+  test.skip(!['mobile-chromium', 'iphone-webkit'].includes(testInfo.project.name))
+  await page.addInitScript(() => {
+    const original = window.fetch.bind(window)
+    const entry = { id: 'control-layout-demo', title: 'Control Layout Demo', description: 'Touch layout fixture.', developer: 'PocketArc', publisher: 'PocketArc', year: 2026, genre: ['Demo'], cover: '', romPath: '/catalog/roms/control-layout-demo.gba', fileSize: 4, checksum: '9f64a747e1b97f131fabb6b447296c9b6f0201e79fb3c5356e6c77e89b6a806a', featured: true }
+    window.fetch = async (input, init) => {
+      const url = String(input)
+      if (url.includes('/catalog/games.json')) return new Response(JSON.stringify([entry]), { headers: { 'Content-Type': 'application/json' } })
+      if (url.includes('/catalog/roms/control-layout-demo.gba')) return new Response(new Uint8Array([1, 2, 3, 4]))
+      return original(input, init)
+    }
+  })
+  await page.goto('/app/game/catalog:control-layout-demo')
+  await page.getByRole('button', { name: 'Download & Play' }).click()
+  await expect(page.getByLabel('Touch game controls')).toBeVisible()
+
+  for (const [width, height] of PORTRAIT_GAMEPLAY_VIEWPORTS) {
+    await page.setViewportSize({ width, height })
+    const controls = Object.fromEntries(await Promise.all(['dpad', 'a', 'b', 'l', 'r', 'select', 'start'].map(async (id) => [id, await page.locator(`[data-control="${id}"]`).boundingBox()])))
+    for (const [id, box] of Object.entries(controls)) expect(box, `${id} should render at ${width}x${height}`).not.toBeNull()
+    const { dpad, a, b, l, r, select, start } = controls
+    if (!dpad || !a || !b || !l || !r || !select || !start) continue
+
+    expect(Math.abs(l.y - r.y)).toBeLessThan(1)
+    expect(l.width).toBeGreaterThanOrEqual(88); expect(l.height).toBeGreaterThanOrEqual(48)
+    expect(a.width).toBeCloseTo(b.width, 1); expect(a.height).toBeCloseTo(b.height, 1)
+    expect(a.width).toBeGreaterThanOrEqual(72); expect(a.width).toBeLessThanOrEqual(78)
+    expect(dpad.width).toBeGreaterThanOrEqual(132); expect(dpad.height).toBeGreaterThanOrEqual(132)
+    expect(Math.abs(select.y - start.y)).toBeLessThan(1); expect(select.x).toBeLessThan(start.x)
+    expect(Math.min(dpad.y, a.y) - (l.y + l.height)).toBeGreaterThanOrEqual(27)
+    expect(select.y - Math.max(dpad.y + dpad.height, b.y + b.height)).toBeGreaterThanOrEqual(14)
+    expect(height - Math.max(select.y + select.height, start.y + start.height)).toBeGreaterThanOrEqual(24)
+  }
+})
 
 test('keeps customized controls reachable across required viewports and persists layouts', async ({ page }) => {
   await page.goto('/settings')
