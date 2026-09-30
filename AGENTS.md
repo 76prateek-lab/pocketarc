@@ -169,6 +169,48 @@ Do not scale buttons on hover.
 
 Hover feedback should primarily use background and text-color changes.
 
+## Marketing landing page exception
+
+The strict visual restrictions in `DESIGN.md` remain authoritative for the PocketArc application UI.
+
+However, the public marketing landing page at `/` is allowed to use a more expressive premium-gaming visual language.
+
+Only for `/` and components inside `src/components/landing/`, the following are allowed:
+
+* subtle radial gradients
+* ambient colored light
+* restrained green/blue glow
+* layered shadows
+* translucent dark header surfaces
+* subtle backdrop blur
+* very small perspective transforms
+* slow ambient motion
+* richer dark tonal hierarchy
+
+The following are still prohibited:
+
+* RGB/rainbow gaming aesthetics
+* neon overload
+* pixel fonts
+* cartoon retro styling
+* giant colorful backgrounds
+* excessive glassmorphism
+* flashy animations
+* glow around every element
+* modifying the application UI design language
+
+The product application `/app` and all emulator, library, and settings screens must continue following `DESIGN.md` exactly.
+
+The landing page should feel:
+
+* premium
+* sleek
+* cinematic
+* modern gaming
+* luxury technology
+
+Do not apply these landing-page exceptions anywhere else.
+
 ## Architecture rules
 
 UI components must not access IndexedDB directly.
